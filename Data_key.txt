@@ -1,0 +1,50 @@
+There were 42 subjects. Of those we lost the following:
+
+- 8 subjects were lost because of computer crashes
+- 6 didn't return for the second session
+- one had an accuracy rate greater than .8 (accuracy was supposed to be .7 according to thresholding)
+- one had an accuracy rate less than .6
+- one was just too slow (average RT > 1,000 and many RTs suggested many seconds of just sitting there)
+
+That left us with 25 good subjects, which are concatenated in the attached file.
+
+I've cut out nearly all of the variables in the attached except for subject number, condition (0-15), accuracy, and RT
+
+There are 80 trials for each of the 16 conditions for each subject. The experiment took place in blocks of 80. Each block was only same/different or only 2AFC. Each block contained 10 repetitions of 8 conditions. If a block was one type of test format, the next block was the other type of test format (alternating between 2AFC and same/different)
+
+The prime durations were 50 ms and 400 ms (unfortunately 400 ms failed to cause negative priming, but it nearly eliminated the huge positive priming for 50 ms). 400 (rather than the 2,000 ms I've used in the past) was chosen because
+1) it produced negative priming in the past
+2) it's a brief duration, which cuts down on length of the experiment
+3) it's fast enough that it arguably doesn't leave tons of time for strategic responding
+
+Here is the coding scheme for the 16 conditions
+
+% forced choice
+
+% 0  LEFT SHORT TAR    A A A/B
+% 1  RIGHT SHORT TAR   A A B/A
+% 2  LEFT LONG TAR     AA A A/B
+% 3  RIGHT LONG TAR    AA A B/A
+% 4  LEFT SHORT FOIL   A B B/A
+% 5  RIGHT SHORT FOIL  A B A/B
+% 6  LEFT LONG FOIL    AA B B/A
+% 7  RIGHT LONG FOIL   AA B A/B
+
+% same different
+
+% 8  SAME SHORT TAR    A A A
+% 9  DIFF SHORT TAR    A A B
+% 10 SAME LONG TAR     AA A A
+% 11 DIFF LONG TAR     AA A B
+% 12 SAME SHORT FOIL   A B B
+% 13 DIFF SHORT FOIL   A B A
+% 14 SAME LONG FOIL    AA B B
+% 15 DIFF LONG FOIL    AA B A
+
+My labels with As and Bs shows you what actually happened in the trial (A is short duration prime and AA is long duration prime, the next letter is the flashed target, and the final letter(s) are what appeared for the test screen).
+
+I did not counter balance keys or anything. Furthermore, the same keys (f and j) where used for left/right choices as used for same/different choices. Thus, if people where faster in general to press a particular button due to motor constraints, that would affect both tasks analogously. The F key was NO (i.e., different) and also LEFT and the J key was YES and also RIGHT. I figured that not balancing was the right thing to do because then differences between pressing one key versus a different key will get rolled into the parameter estimates for the processes unique to that resposne.
+
+Note that up until the test displays, the first 8 conditions are identical to the next 8 conditions. Therefore, any parameters related to perceptual aspects (i.e., information accrued from the prime and/or target flash) should be identical (assuming that attention was applied equally for both test formats). Also note that all conditions involved exactly 2 unique words.
+
+The forced choice conditions can be decomposed into the same/different conditions. In other words, condition 0 (or 1) contains elements that are analogous to conditions 8 and 9, representing the breakdown of identification for each of the two words appearing during forced choice testing, as revealed by a condition that only presented that word during same/different testing.

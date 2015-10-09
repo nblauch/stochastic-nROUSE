@@ -109,16 +109,29 @@ function o = nROUSE_simple(oInput)
                 if t==1                         % present prime
                     inp_vis=zeros(1,5);
                     inp_vis(VPR)=1;
+                    if o.stochasticVisualInput
+                        inp_vis(VPR) = normrnd(1,o.visualInputSD);
+                    end
                 elseif t==o.PrimeDur+1           % present target
                     inp_vis=zeros(1,5);
                     inp_vis(VTR)=1;
+                    if o.stochasticVisualInput
+                        inp_vis(VTR) = normrnd(1,o.visualInputSD);
+                    end
                 elseif t==o.PrimeDur+o.TarDur+1    % present mask
                     inp_vis=zeros(1,5);
                     inp_vis(VMK)=1;
+                    if o.stochasticVisualInput
+                        inp_vis(VMK) = normrnd(1,o.visualInputSD);
+                    end
                 elseif t==o.SOA+1                 % present choices
                     inp_vis=zeros(1,5);
                     inp_vis(VTRC)=1;
                     inp_vis(VFLC)=1;
+                    if o.stochasticVisualInput
+                        inp_vis(VTRC) = normrnd(1,o.visualInputSD);
+                        inp_vis(VFLC) = normrnd(1,o.visualInputSD);
+                    end
                 end
                 [new_mem_vis,new_amp_vis,out_vis]=update(mem_vis,amp_vis,inp_vis,1);
                 

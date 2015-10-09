@@ -1,10 +1,8 @@
-%%Wrapper program to call the nROUSE function in order to make
-%%distributions of calls
+%%Wrapper program to simulate the effects of Item Differences
+
 
 %%%4 conditions: combination of short/long and foil/target prime
-%%%for each, we want a plot of target & foil latencies
-%%%would be nice to store connection weights for each trial
-%%%latencies and accuracies will be stored in nx2x2 3D matrices
+%%%latencies and accuracies will be stored in nx2x2 matrices
 n = 100;
 targetLatencies = zeros(n,2,2);
 foilLatencies = zeros(n,2,2);
@@ -16,7 +14,7 @@ LONG = 2;
 %%%the third dimension corresponds to the prime type 
 TARGET = 1;
 FOIL = 2;
-%%%weights will be stored in a 10000x2 2D matrix.
+%%%weights will be stored in a nx2 matrix.
 %%%the first dimension corresponds to the trial
 %%%the second dimension corresponds to the prime type 
 weights = zeros(n,2);

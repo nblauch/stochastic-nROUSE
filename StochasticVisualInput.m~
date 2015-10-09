@@ -64,11 +64,11 @@ for i=1:n
         end
     end
 end
-fractionCorrect = latAccs(1,:,:)./n;
-propCorrect(1) = fractionCorrect(1,1,1);
-propCorrect(2) = fractionCorrect(1,2,1);
-propCorrect(3) = fractionCorrect(1,1,2);
-propCorrect(4) = fractionCorrect(1,2,2);
+percentAcc = latAccs(1,:,:)./n;
+percentAccs(1) = percentAcc(1,1,1);
+percentAccs(2) = percentAcc(1,2,1);
+percentAccs(3) = percentAcc(1,1,2);
+percentAccs
 
 
 %%RT plots
@@ -174,10 +174,10 @@ title('400 ms foil prime');
 h4.XTickLabel = {'Correct','Incorrect'};
 
 % percent correct for all conditions
-h = subplot(1,1,1);
-bar(1:4,propCorrect(:))
+figure
+h = bar(1:4,percentAccs(1,:,:))
 xlabel('Prime type');
-ylabel('Proportion correct');
+ylabel('% Correct');
 h.XTickLabel = {'Short target','Long target','Short foil','Long foil'};
 
 

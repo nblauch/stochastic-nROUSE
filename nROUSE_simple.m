@@ -41,6 +41,9 @@ function o = nROUSE_simple(oInput)
     o.T=.15;          % activation threshold
     o.S=[0.0294,0.0609,.015];    % integration time constants at each level
     
+    o.stochasticVisualInput = 0;
+    o.visualInputSD = 0;
+    
     % All fields in the user-supplied "oIn" overwrite corresponding fields in "o".
     fields=fieldnames(oInput);
     for i=1:length(fields)

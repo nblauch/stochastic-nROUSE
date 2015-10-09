@@ -1,6 +1,6 @@
 %%Wrapper program to simulate the effects of Item Differences
 
-
+clear all
 %%%4 conditions: combination of short/long and foil/target prime
 %%%latencies and accuracies will be stored in nx2x2 matrices
 n = 100;

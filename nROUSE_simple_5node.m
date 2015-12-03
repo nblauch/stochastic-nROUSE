@@ -1,14 +1,12 @@
-function o = nROUSE_simple(oInput)
+function o = nROUSE_simple_5node(oInput)
 
 % assignments for visual layer
 
     VPR=1;   % visual prime
     VTR=2;   % visual target
-    VF = 3;  % visual foil presented concurrently w/ target 
-    VMK=4;   % visual mask
-    VTRC=5;  % visual target choice
-    VFLC=6;  % visual foil choice
-    
+    VMK=3;   % visual mask
+    VTRC=4;  % visual target choice
+    VFLC=5;  % visual foil choice
 
 % assignments for orthographic and semantic layers
 
@@ -19,7 +17,6 @@ function o = nROUSE_simple(oInput)
 
     o.VisOrth=[0,0;  % from VPR
              1,0;  % from VTR
-             0,1;  %from VF
              0,0;  % from VMK
              1,0;  % from VTRC
              0,1]; % from VFLC
@@ -44,11 +41,13 @@ function o = nROUSE_simple(oInput)
     o.T=.15;          % activation threshold
     o.S=[0.0294,0.0609,.015];    % integration time constants at each level
     
+    o.stochasticPrime = 0;
+    o.stochasticTarget = 0;
+    o.stochasticMask = 0;
+    o.stochasticChoices = 0;
     o.stochasticVisualInput = 0;
     o.visualInputSD = 0;
-    o.useNoise = 0;
-    o.measureThreshold = 0;
-    o.noPrime = 0;
+    o.newItemDifferences = 0;
     
     % All fields in the user-supplied "oIn" overwrite corresponding fields in "o".
     fields=fieldnames(oInput);
@@ -59,7 +58,7 @@ function o = nROUSE_simple(oInput)
     
     for cd=1:2      % cd is a step through index for conditions    
         if cd==1         % target primed
-            o.VisOrth(VPR,:)=[2,0]; % set to 2 because there are two visual copies on the screen
+            o.VisOrth(VPR,:)=[2,0];              % set to 2 because there are two visual copies on the screen
         elseif cd==2      % foil primed
             o.VisOrth(VPR,:)=[0,2];
         end
@@ -68,6 +67,29 @@ function o = nROUSE_simple(oInput)
         o.targ_lat(:,cd)=o.Latency(:,TARG);
         o.foil_lat(:,cd)=o.Latency(:,FOIL);
     end
+%     
+%     subplot(3,1,1);
+%     accs
+%     plot(o.durations,o.accs);
+%     xscale('log');
+%     xlabel('durations(ms)');
+%     ylabel('Accuracy');
+%     legend('target prime','foil prime');
+%     subplot(3,1,2);
+%     targ_lat
+%     plot(o.durations,o.targ_lat);
+%     xscale('log');
+%     xlabel('o.durations(ms)');
+%     ylabel('Target latency (ms)');
+%     legend('target prime','foil prime');
+%     subplot(3,1,3);
+%     foil_lat
+%     plot(o.durations,o.foil_lat);
+%     xscale('log');
+%     xlabel('durations(ms)');
+%     ylabel('Foil latency (ms)');
+%     legend('target prime','foil prime');
+
     
     function [acc, Latency]=simulate
         
@@ -77,9 +99,9 @@ function o = nROUSE_simple(oInput)
             o.PrimeDur=o.durations(pd);
             o.SOA=o.PrimeDur+o.TarDur+o.MaskDur;        % time when choices are presented
             
-            mem_vis=zeros(1,6);     % initialize neural variables
-            amp_vis=ones(1,6);
-            out_vis=zeros(1,6);
+            mem_vis=zeros(1,5);     % initialize neural variables
+            amp_vis=ones(1,5);
+            out_vis=zeros(1,5);
             mem_orth=zeros(1,2);
             amp_orth=ones(1,2);
             out_orth=zeros(1,2);
@@ -93,51 +115,50 @@ function o = nROUSE_simple(oInput)
                 
                 % udpate visual layer
                 if t==1                         % present prime
-                    inp_vis=zeros(1,6);
-                    inp_vis(VPR)= 1;
-                    if o.stochasticVisualInput
-                        inp_vis(VPR) = normrnd(inp_vis(VPR),o.visualInputSD);
-                    end
-                    if o.noPrime
-                        inp_vis(VPR) = 0;
-                    end
+                    inp_vis=zeros(1,5);
+                    inp_vis(VPR)=1;
+%                     if o.newItemDifferences
+%                         if cd ==1
+%                             inp_vis(VPR) = o.targetConnectionWeight;
+%                         end
+%                         if cd==2
+%                             inp_vis(VPR) = o.foilConnectionWeight;   
+%                         end
+%                     end
                 elseif t==o.PrimeDur+1           % present target
-                    inp_vis=zeros(1,6);
+                    inp_vis=zeros(1,5);
                     inp_vis(VTR)=1;
-                    if o.stochasticVisualInput
+                    if o.stochasticVisualInput && o.stochasticTarget
                         inp_vis(VTR) = normrnd(1,o.visualInputSD);
                     end
-                    if o.measureThreshold
-                        inp_vis(VTR) = o.targStrength;
-                    end
-                    if o.useNoise
-                        inp_vis(VTR) = normrnd(o.targStrength,o.noiseSD);
-                        if inp_vis(VTR) > o.targStrength 
-                            inp_vis(VTR)=o.targStrength;
-                        end
-                        inp_vis(VF) = normrnd(0,o.noiseSD);
-                        if inp_vis(VF)<0
-                            inp_vis(VF)=0;
-                        end
-                        inp_vis(VMK) = o.noiseSD;
-                    end
+%                     if o.newItemDifferences
+%                         inp_vis(VTRC) = o.targetConnectionWeight;
+%                     end
                 elseif t==o.PrimeDur+o.TarDur+1    % present mask
-                    inp_vis=zeros(1,6);
+                    inp_vis=zeros(1,5);
                     inp_vis(VMK)=1;
+                    if o.stochasticVisualInput && o.stochasticMask
+                        inp_vis(VMK) = normrnd(1,o.visualInputSD);
+                    end
                 elseif t==o.SOA+1                 % present choices
-                    inp_vis=zeros(1,6);
+                    inp_vis=zeros(1,5);
                     inp_vis(VTRC)=1;
                     inp_vis(VFLC)=1;
-                    if o.stochasticVisualInput
+                    if o.stochasticVisualInput && o.stochasticChoices
                         inp_vis(VTRC) = normrnd(1,o.visualInputSD);
                         inp_vis(VFLC) = normrnd(1,o.visualInputSD);
                     end
+                    if o.newItemDifferences
+                        inp_vis(VTRC) = o.targetConnectionWeight;
+                        inp_vis(VFLC) = o.foilConnectionWeight;
+                    end
+
                 end
                 [new_mem_vis,new_amp_vis,out_vis]=update(mem_vis,amp_vis,inp_vis,1);
                 
                 % update orthographic layer
                 inp_orth=out_vis*o.VisOrth;
-                inp_orth=inp_orth+o.F.*out_sem*o.SemOrth;
+                inp_orth=inp_orth +o.F.*out_sem*o.SemOrth;
                 [new_mem_orth,new_amp_orth,out_orth]=update(mem_orth,amp_orth,inp_orth,2);
 
                 % update semantic layer
@@ -187,8 +208,8 @@ function o = nROUSE_simple(oInput)
         old_out=subplus(old_mem-o.T).*old_amp;    % output is above threshold activation times available synaptic resources
 
         if level==1     % visual inhibition                 
-            inhibit([1:4])=sum(old_out([1:4]));  % prime, target, and mask mutually inhibit each other (centrally presented)
-            inhibit([5:6])=old_out([5:6]);      % choice words only self inhibit (unique screen location)
+            inhibit([1:3])=sum(old_out([1:3]));  % prime, target, and mask mutually inhibit each other (centrally presented)
+            inhibit([4:5])=old_out([4:5]);      % choice words only self inhibit (unique screen location)
         else
             inhibit=sum(old_out);               % for orthography and semantics, everything inhibits everything
         end

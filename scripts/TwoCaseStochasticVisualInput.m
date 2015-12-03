@@ -1,7 +1,7 @@
 %Wrapper program to test the effects of varying visual input strength 
 
 %%%latencies and accuracies will be stored in nx2x2 matrices
-n = 1000;
+n = 100;
 targetLatencies = zeros(n,2,2);
 foilLatencies = zeros(n,2,2);
 accuracy = zeros(n,2,2);
@@ -69,7 +69,11 @@ propCorrect(1) = fractionCorrect(1,1,1);
 propCorrect(2) = fractionCorrect(1,2,1);
 propCorrect(3) = fractionCorrect(1,1,2);
 propCorrect(4) = fractionCorrect(1,2,2);
-
+fractionCorrectStochasticRacer = accuracy(1,:,:);
+propCorrectStochasticRacer(1) = fractionCorrectStochasticRacer(1,1,1);
+propCorrectStochasticRacer(2) = fractionCorrectStochasticRacer(1,2,1);
+propCorrectStochasticRacer(3) = fractionCorrectStochasticRacer(1,1,2);
+propCorrectStochasticRacer(4) = fractionCorrectStochasticRacer(1,2,2);
 
 %%RT plots
 figure
@@ -173,7 +177,9 @@ ylabel('Occurence');
 title('400 ms foil prime');
 h4.XTickLabel = {'Correct','Incorrect'};
 
+
 % percent correct for all conditions
+figure
 h = subplot(1,1,1);
 bar(1:4,propCorrect(:))
 xlabel('Prime type');
@@ -181,4 +187,11 @@ ylabel('Proportion correct');
 h.XTickLabel = {'Short target','Long target','Short foil','Long foil'};
 
 
-
+%%Plots of accuracy with stochastic race-winner detection
+% percent correct for all conditions
+figure
+h = subplot(1,1,1);
+bar(1:4,fractionCorrectStochasticRacer(:))
+xlabel('Prime type');
+ylabel('Proportion correct');
+h.XTickLabel = {'Short target','Long target','Short foil','Long foil'};

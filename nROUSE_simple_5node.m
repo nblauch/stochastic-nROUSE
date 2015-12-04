@@ -117,23 +117,23 @@ function o = nROUSE_simple_5node(oInput)
                 if t==1                         % present prime
                     inp_vis=zeros(1,5);
                     inp_vis(VPR)=1;
-                    if o.newItemDifferences
-                        if cd ==1
-                            inp_vis(VPR) = o.targetConnectionWeight;
-                        end
-                        if cd==2
-                            inp_vis(VPR) = o.foilConnectionWeight;   
-                        end
-                    end
+%                     if o.newItemDifferences
+%                         if cd ==1
+%                             inp_vis(VPR) = o.targetConnectionWeight;
+%                         end
+%                         if cd==2
+%                             inp_vis(VPR) = o.foilConnectionWeight;   
+%                         end
+%                     end
                 elseif t==o.PrimeDur+1           % present target
                     inp_vis=zeros(1,5);
                     inp_vis(VTR)=1;
                     if o.stochasticVisualInput && o.stochasticTarget
                         inp_vis(VTR) = normrnd(1,o.visualInputSD);
                     end
-%                     if o.newItemDifferences
-%                         inp_vis(VTRC) = o.targetConnectionWeight;
-%                     end
+                    if o.newItemDifferences
+                        inp_vis(VTRC) = o.targetConnectionWeight;
+                    end
                 elseif t==o.PrimeDur+o.TarDur+1    % present mask
                     inp_vis=zeros(1,5);
                     inp_vis(VMK)=1;

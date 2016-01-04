@@ -73,6 +73,7 @@ propCorrectTarget = fractionCorrect(1,:,1,:);
 propCorrectFoil = fractionCorrect(1,:,2,:);
 
 meanAccuracies = mean(accuracies,1);
+
 figure
 hold on
 plot(durations,meanAccuracies(1,:,1,1));

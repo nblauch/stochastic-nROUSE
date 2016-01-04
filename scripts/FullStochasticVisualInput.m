@@ -5,8 +5,9 @@
 %noisy process of deciding which racer finishes first. 
 
 %%%latencies and accuracies will be stored in nx2x2 matrices
-n = 100;
+n = 1000;
 durations = [17,50,150,400,2000];
+durations = [50,400];
 targetLatencies = zeros(n,length(durations),2);
 foilLatencies = zeros(n,length(durations),2);
 accuracy = zeros(n,length(durations),2);
@@ -18,47 +19,26 @@ FOIL = 2;
 %Setting o.stochasticVisualInput to 1 causes visual input weights to be
 %drawn from a normal distribution centered around 1 with SD given by
 %o.visualInputSD
-oInput.stochasticVisualInput = 1;
+oInput.stochasticVisualInput = 0;
+oInput.stochasticPrime = 0;
+oInput.stochasticTarget = 0;
+oInput.stochasticMask = 0;
+oInput.stochasticChoices = 1;
+
 oInput.visualInputSD = .35;
 for i=1:n
 
     %cd is a looping variable determining prime duration
-    for cd=1:5
+    for cd=1:length(durations)
         %individual function call
         %nROUSE_simple has default values for all o parameters
         %any provided by this program are used to override defaults
-        switch cd
-            case 1
-            oInput.durations = 17;
-            o = nROUSE_simple_5node(oInput);
-            targetLatencies(i,cd,:) = o.targ_lat(1,:);
-            foilLatencies(i,cd,:) = o.foil_lat(1,:);
-            accuracy(i,cd,:) = o.accs(1,:);
-            case 2
-            oInput.durations = 50;
-            o = nROUSE_simple_5node(oInput);
-            targetLatencies(i,cd,:) = o.targ_lat(1,:);
-            foilLatencies(i,cd,:) = o.foil_lat(1,:);
-            accuracy(i,cd,:) = o.accs(1,:);
-            case 3
-            oInput.durations = 150;
-            o = nROUSE_simple_5node(oInput);
-            targetLatencies(i,cd,:) = o.targ_lat(1,:);
-            foilLatencies(i,cd,:) = o.foil_lat(1,:);
-            accuracy(i,cd,:) = o.accs(1,:);
-            case 4
-            oInput.durations = 400;
-            o = nROUSE_simple_5node(oInput);
-            targetLatencies(i,cd,:) = o.targ_lat(1,:);
-            foilLatencies(i,cd,:) = o.foil_lat(1,:);
-            accuracy(i,cd,:) = o.accs(1,:);
-            case 5
-            oInput.durations = 2000;
-            o = nROUSE_simple_5node(oInput);
-            targetLatencies(i,cd,:) = o.targ_lat(1,:);
-            foilLatencies(i,cd,:) = o.foil_lat(1,:);
-            accuracy(i,cd,:) = o.accs(1,:);
-        end
+        oInput.durations = durations(cd);
+        o = nROUSE_simple_5node(oInput);
+        targetLatencies(i,cd,:) = o.targ_lat(1,:);
+        foilLatencies(i,cd,:) = o.foil_lat(1,:);
+        accuracy(i,cd,:) = o.accs(1,:);
+        
     end
 end
 
@@ -73,9 +53,9 @@ latDiffs = foilLatencies - targetLatencies;
 %accuracies (as determined by winner of horse race) stored in a 2x2x2 matrix
 %first dimension holds the number of true (1) or false (2) answers for the
 %task determined by dimensions 2 (prime duration) and 3 (prime type)
-latAccs = zeros(2,5,2);
+latAccs = zeros(2,length(durations),2);
 for i=1:n
-    for j=1:5
+    for j=1:length(durations)
         for k = 1:2
             if latDiffs(i,j,k)>0
                 latAccs(1,j,k) = latAccs(1,j,k)+1;
@@ -98,8 +78,8 @@ propCorrectFoilStochasticRacers = mean(accuracy(:,:,2),1);
 
 figure
 hold on
-plot(durations,propCorrectTarget);
-plot(durations,propCorrectFoil);
+semilogx(durations,propCorrectTarget);
+semilogx(durations,propCorrectFoil);
 legend('Target prime','Foil prime');
 xlabel('Prime duration (ms)');
 ylabel('Proportion correct');
@@ -107,8 +87,8 @@ title('No variability in race-winner detection');
 
 figure
 hold on
-plot(durations,propCorrectTargetStochasticRacers);
-plot(durations,propCorrectFoilStochasticRacers);
+semilogx(durations,propCorrectTargetStochasticRacers);
+semilogx(durations,propCorrectFoilStochasticRacers);
 legend('Target prime','Foil prime');
 xlabel('Prime duration (ms)');
 ylabel('Proportion correct');
@@ -153,6 +133,7 @@ s10 = 'F-Prime 5';
 legend(s1,s2,s3,s4,s5,s6,s7,s8,s9,s10);
 xlabel('Trial');
 ylabel('Decision time (ms)');
+
 
 
 

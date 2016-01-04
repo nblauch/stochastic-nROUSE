@@ -11,6 +11,7 @@ ch = rbinom( N, 1, .8) # Generate accuracy independently using a bernoulli distr
 # rbinom( Sample size, # of possible successes, Probability of a success )
 rt = rgamma( N, shape = 2, scale = .3 ) # Generate response times from a gamma distribution
 
+
 # 2)
 # Plotting the joint density
 prp = mean( ch ) # Determine the proportion of accurate responses
@@ -32,7 +33,7 @@ lines( d1$x, d1$y*prp )
 lines( d0$x, d0$y*(1-prp), lty = 2) # Use a dashed line
 abline(h=0)
 
-legend( xl[1], yl[2],
+legend( 'topright',
         c('Correct','Wrong'), # Legend labels
         lty = c(1,2), # Solid and dashed lines
         bty = 'n' # Suppresses box around the legend

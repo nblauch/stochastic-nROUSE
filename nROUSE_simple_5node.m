@@ -46,6 +46,7 @@ function o = nROUSE_simple_5node(oInput)
     o.stochasticMask = 0;
     o.stochasticChoices = 0;
     o.stochasticVisualInput = 0;
+    o.stochasticVisOrth = 0;
     o.visualInputSD = 0;
     o.newItemDifferences = 0;
     
@@ -59,8 +60,14 @@ function o = nROUSE_simple_5node(oInput)
     for cd=1:2      % cd is a step through index for conditions    
         if cd==1         % target primed
             o.VisOrth(VPR,:)=[2,0];              % set to 2 because there are two visual copies on the screen
+            if o.stochasticVisOrth
+                o.visOrth(VPR,:)=[2*o.targetConnectionWeight,0];
+            end
         elseif cd==2      % foil primed
             o.VisOrth(VPR,:)=[0,2];
+            if o.stochasticVisOrth
+                o.visOrth(VPR,:)=[2*o.foilConnectionWeight,0];
+            end
         end
 
         [o.accs(:,cd), o.Latency]=simulate;  % run all prime o.durations and return accuracy and latency
@@ -117,6 +124,9 @@ function o = nROUSE_simple_5node(oInput)
                 if t==1                         % present prime
                     inp_vis=zeros(1,5);
                     inp_vis(VPR)=1;
+                    if o.stochasticVisualInput && o.stochasticPrime
+                        inp_vis(VPR) = normrnd(1,o.visualInputSD);
+                    end
 %                     if o.newItemDifferences
 %                         if cd ==1
 %                             inp_vis(VPR) = o.targetConnectionWeight;

@@ -3,7 +3,7 @@
 clear all
 %%%4 conditions: combination of short/long and foil/target prime
 %%%latencies and accuracies will be stored in nx2x2 matrices
-n = 100;
+n = 1000;
 targetLatencies = zeros(n,2,2);
 foilLatencies = zeros(n,2,2);
 accuracy = zeros(n,2,2);
@@ -18,17 +18,25 @@ FOIL = 2;
 %%%the first dimension corresponds to the trial
 %%%the second dimension corresponds to the prime type 
 weights = zeros(n,2);
+oInput.stochasticVisOrth = 1;
 
 for i=1:n
     %%Modifying connection weights
     oInput.targetConnectionWeight = normrnd(1,.1);
     oInput.foilConnectionWeight = normrnd(1,.1);
-    oInput.OrthSem=eye(2); 
-    oInput.OrthSem(:,1) = oInput.OrthSem(:,1)*oInput.targetConnectionWeight;
-    oInput.OrthSem(:,2)= oInput.OrthSem(:,2)*oInput.foilConnectionWeight;
-    %%set the feedback weights equal to the feedforward weights
-    oInput.SemOrth=oInput.OrthSem; 
+%     oInput.OrthSem=eye(2); 
+%     oInput.OrthSem(:,1) = oInput.OrthSem(:,1)*oInput.targetConnectionWeight;
+%     oInput.OrthSem(:,2)= oInput.OrthSem(:,2)*oInput.foilConnectionWeight;
+%     %%set the feedback weights equal to the feedforward weights
+%     oInput.SemOrth=oInput.OrthSem; 
 
+     oInput.VisOrth=[0,0;  % from VPR
+             oInput.targetConnectionWeight,0;  % from VTR
+             0,0;  % from VMK
+             oInput.targetConnectionWeight,0;  % from VTRC
+             0,oInput.foilConnectionWeight]; % from VFLC
+     
+     
     for cond=1:2
         %individual function call
         %nROUSE_nick has default values for all o parameters

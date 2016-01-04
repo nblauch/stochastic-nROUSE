@@ -106,6 +106,8 @@ legend('Target prime','Foil prime');
 xlabel('Prime duration (ms)');
 ylabel('Proportion correct');
 title('Stochastic visual input for prime block');
+%set(gca,'xscale','log')
+
 
 subplot(2,1,2)
 hold on
@@ -115,6 +117,8 @@ legend('Target prime','Foil prime');
 xlabel('Prime duration (ms)');
 ylabel('Proportion correct');
 title('Variability in race-winner detection, prime block vis input');
+%set(gca,'xscale','log')
+
 
 %block 2, target
 figure
@@ -126,6 +130,8 @@ legend('Target prime','Foil prime');
 xlabel('Prime duration (ms)');
 ylabel('Proportion correct');
 title('Stochastic visual input for target block');
+%set(gca,'xscale','log')
+
 
 subplot(2,1,2)
 hold on
@@ -135,6 +141,8 @@ legend('Target prime','Foil prime');
 xlabel('Prime duration (ms)');
 ylabel('Proportion correct');
 title('Variability in race-winner detection, target block vis input');
+%set(gca,'xscale','log')
+
 
 %block 3, mask
 figure
@@ -146,6 +154,8 @@ legend('Target prime','Foil prime');
 xlabel('Prime duration (ms)');
 ylabel('Proportion correct');
 title('Stochastic visual input for mask block');
+%set(gca,'xscale','log')
+
 
 subplot(2,1,2)
 hold on
@@ -155,6 +165,8 @@ legend('Target prime','Foil prime');
 xlabel('Prime duration (ms)');
 ylabel('Proportion correct');
 title('Variability in race-winner detection, mask block vis input');
+%set(gca,'xscale','log')
+
 
 %block 4, choices
 figure
@@ -166,6 +178,8 @@ legend('Target prime','Foil prime');
 xlabel('Prime duration (ms)');
 ylabel('Proportion correct');
 title('Stochastic visual input for choice block');
+%set(gca,'xscale','log')
+
 
 subplot(2,1,2)
 hold on
@@ -175,4 +189,7 @@ legend('Target prime','Foil prime');
 xlabel('Prime duration (ms)');
 ylabel('Proportion correct');
 title('Variability in race-winner detection, choice block vis input');
+%set(gca,'xscale','log')
+
+
 
